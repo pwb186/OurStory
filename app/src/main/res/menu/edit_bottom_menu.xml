@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/edit_image"
+        android:icon="@drawable/icon_add_picture"
+        android:title="@string/OptionAddPicture" />
+    <item
+        android:id="@+id/edit_text"
+        android:icon="@drawable/icon_add_text"
+        android:title="@string/OptionAddText" />
+    <item
+        android:id="@+id/edit_voice"
+        android:icon="@drawable/icon_add_voice"
+        android:title="@string/OptionAddVoice" />
+    <item
+        android:id="@+id/edit_video"
+        android:icon="@drawable/icon_add_video"
+        android:title="@string/OptionAddRadio" />
+</menu>
