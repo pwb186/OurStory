@@ -1,5 +1,6 @@
 package com.pabopwb.ourstory.page;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +17,16 @@ import com.pabopwb.ourstory.dao.InitDataBase;
 import com.pabopwb.ourstory.dao.StoryDao;
 import com.pabopwb.ourstory.databinding.FragmentMainBinding;
 import com.pabopwb.ourstory.entity.EntityCard;
+import com.pabopwb.ourstory.entity.EntityStory;
+import com.pabopwb.ourstory.util.UtilMethod;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
     FragmentMainBinding binding;    //使用 View Binding 获取 Fragment 的视图组件，简化了视图查找。
-    InitDataBase dataBase;
+    InitDataBase initDataBase;
     StoryDao storyDao;
     /**
      * a. FragmentNoteBinding.inflate(getLayoutInflater())
@@ -38,29 +42,59 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentMainBinding.inflate(getLayoutInflater());
-        ArrayList<EntityCard> list = new ArrayList<>();
-        list.add(new EntityCard(1, "1", "204/568/33", "1你好", "1FragmentNoteBinding: 这是由 Android Studio 自动生成的类，代表与布局文件 fragment_note.xml 相关联的绑定类。这个类会为布局文件中的所有视图元素生成相应的属性。"));
-        list.add(new EntityCard(2, "1sadfe", "1", "1", "1"));
-        list.add(new EntityCard(3, "1bdh", "1", "1", "1"));
-        list.add(new EntityCard(4, "1rt", "1[]iji", "1", "1"));
-        list.add(new EntityCard(5, "1bfg", "1", "1", "1"));
-        list.add(new EntityCard(6, "1rt", "18755", "1", "1"));
-        StoryAdapter storyAdapter = new StoryAdapter(list, getContext());
-
-        /**
-         * storyList: 这是一个 RecyclerView 的引用，它是在布局文件中定义的一个视图元素。通过 View Binding，storyList 可以直接访问，并且其类型会被自动推断为 RecyclerView
-         * 将适配器（storyAdapter）设置给 RecyclerView（storyList），使得 RecyclerView 能够展示数据。
-         * 设置布局管理器，使得 RecyclerView 以垂直的方式排列其子项。这种配置是实现动态列表显示的标准做法。
-         * */
-        binding.storyList.setAdapter(storyAdapter);
-        binding.storyList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        initMethod();
+        initList();
         View view = binding.getRoot().getRootView();
         MaterialToolbar topAppBar = view.findViewById(R.id.topAppBar);
 
+        binding.floatingActionButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), EditActivity.class)));
 
-
-        //View view = inflater.inflate(R.layout.fragment_main, container, false);
-        // Inflate the layout for this fragment
         return binding.getRoot();
+    }
+
+    private void initList() {
+        List<EntityStory> localNote = getLocalNote();
+        if (localNote != null && !localNote.isEmpty()) {
+            ArrayList<EntityCard> list = storyToCard(localNote);
+            binding.storyNull.setVisibility(View.GONE);
+            /* *
+             * storyList: 这是一个 RecyclerView 的引用，它是在布局文件中定义的一个视图元素。通过 View Binding，storyList 可以直接访问，并且其类型会被自动推断为 RecyclerView
+             * 将适配器（storyAdapter）设置给 RecyclerView（storyList），使得 RecyclerView 能够展示数据。
+             * 设置布局管理器，使得 RecyclerView 以垂直的方式排列其子项。这种配置是实现动态列表显示的标准做法。
+             * */
+            StoryAdapter storyAdapter = new StoryAdapter(list, getContext());
+            binding.storyList.setAdapter(storyAdapter);
+            binding.storyList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        } else {
+            binding.storyNull.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private ArrayList<EntityCard> storyToCard(List<EntityStory> list) {
+        ArrayList<EntityCard> cards = new ArrayList<>();
+        for (EntityStory story : list
+        ) {
+            EntityCard entityCard = new EntityCard();
+            entityCard.setCardID(story.getStoryId());
+            entityCard.setText(story.getText());
+            entityCard.setTitle(story.getTitle());
+            cards.add(entityCard);
+        }
+        return cards;
+    }
+
+    private void initMethod() {
+        initDataBase = UtilMethod.getInstance(getContext());
+        storyDao = initDataBase.storyDao();
+        System.out.println("fragment initMethod   is  running_________");
+    }
+
+    private List<EntityStory> getLocalNote() {
+        List<EntityStory> allStory = storyDao.getAllStory();
+        if (!allStory.isEmpty()) {
+            return allStory;
+        } else {
+            return null;
+        }
     }
 }

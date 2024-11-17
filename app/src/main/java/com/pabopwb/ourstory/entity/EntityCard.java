@@ -8,7 +8,7 @@ public class EntityCard {
     private String title;
     private String text;
 
-    public EntityCard(long cardID, String introduction, String storyCreateTime, String title, String text) {
+    public EntityCard() {
         this.cardID = cardID;
         this.introduction = introduction;
         this.storyCreateTime = storyCreateTime;

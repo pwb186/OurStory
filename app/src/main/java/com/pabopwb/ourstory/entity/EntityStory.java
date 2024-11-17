@@ -24,7 +24,7 @@ public class EntityStory {
     private String storyCreateTime;
 
     @ColumnInfo(name = "story_timestamp")
-    private long timestamp; //时间戳
+    private long timeStamp; //时间戳
 
     @ColumnInfo(name = "story_title")
     private String title;
@@ -32,13 +32,13 @@ public class EntityStory {
     @ColumnInfo(name = "story_text")
     private String text;
 
-    public EntityStory(long storyId, long userId, String userName, String userSlogan, String storyCreateTime, long timestamp, String title, String text) {
+    public EntityStory(long storyId, long userId, String userName, String userSlogan, String storyCreateTime, long timeStamp, String title, String text) {
         this.storyId = storyId;
         this.userId = userId;
         this.userName = userName;
         this.userSlogan = userSlogan;
         this.storyCreateTime = storyCreateTime;
-        this.timestamp = timestamp;
+        this.timeStamp = timeStamp;
         this.title = title;
         this.text = text;
     }
@@ -59,8 +59,8 @@ public class EntityStory {
         this.storyCreateTime = storyCreateTime;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public void setTitle(String title) {
@@ -95,8 +95,8 @@ public class EntityStory {
         return storyCreateTime;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
     public String getTitle() {

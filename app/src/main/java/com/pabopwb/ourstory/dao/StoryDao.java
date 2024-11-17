@@ -24,7 +24,7 @@ public interface StoryDao {
     EntityStory getStoryById(long storyid);
 
     @Insert
-    long insertStory(EntityStory note);
+    void insertStory(EntityStory story);
 
     @Delete
     void deleteStory(EntityStory note);
@@ -33,5 +33,5 @@ public interface StoryDao {
     void deleteStoryById(long storyId);
 
     @Update
-    void updateStory(EntityStory note);
+    void updateStory(EntityStory story);
 }
