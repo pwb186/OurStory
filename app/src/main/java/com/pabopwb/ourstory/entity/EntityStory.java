@@ -3,7 +3,9 @@ package com.pabopwb.ourstory.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+/**
+ * 表
+ **/
 @Entity
 public class EntityStory {
 

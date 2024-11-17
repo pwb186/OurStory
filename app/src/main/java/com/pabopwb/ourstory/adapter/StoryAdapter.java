@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pabopwb.ourstory.R;
-import com.pabopwb.ourstory.dao.InitDataBase;
-import com.pabopwb.ourstory.dao.StoryDao;
+import com.pabopwb.ourstory.room.InitDataBase;
+import com.pabopwb.ourstory.room.StoryDao;
 import com.pabopwb.ourstory.entity.EntityCard;
 import com.pabopwb.ourstory.util.UtilMethod;
 

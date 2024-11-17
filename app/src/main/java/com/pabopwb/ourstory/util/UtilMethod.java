@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import androidx.room.Room;
 
-import com.pabopwb.ourstory.dao.InitDataBase;
+import com.pabopwb.ourstory.room.InitDataBase;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

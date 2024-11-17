@@ -1,4 +1,4 @@
-package com.pabopwb.ourstory.dao;
+package com.pabopwb.ourstory.room;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -10,7 +10,9 @@ import androidx.room.Update;
 import com.pabopwb.ourstory.entity.EntityStory;
 
 import java.util.List;
-
+/**
+ * 进行增删改拆
+ **/
 @Dao
 public interface StoryDao {
     @Query("SELECT * FROM EntityStory")

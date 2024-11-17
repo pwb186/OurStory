@@ -48,6 +48,9 @@ dependencies {
 
 dependencies {
 
+
+    implementation libs.legacy.support.v4
+    implementation libs.recyclerview
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     def room_version = "2.6.1"

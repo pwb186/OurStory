@@ -4,7 +4,7 @@
     android:id="@+id/item_story"
     style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/view_margin_small_spacing"
     android:layout_marginEnd="@dimen/view_margin_small_spacing"
     android:layout_marginBottom="@dimen/view_margin_small_spacing"

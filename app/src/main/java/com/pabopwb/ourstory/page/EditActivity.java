@@ -4,8 +4,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.pabopwb.ourstory.dao.InitDataBase;
-import com.pabopwb.ourstory.dao.StoryDao;
+import com.pabopwb.ourstory.page.bottomSheets.OtherEditOptionFragment;
+import com.pabopwb.ourstory.room.InitDataBase;
+import com.pabopwb.ourstory.room.StoryDao;
 import com.pabopwb.ourstory.databinding.ActivityEditBinding;
 import com.pabopwb.ourstory.entity.EntityStory;
 import com.pabopwb.ourstory.util.Procedure;
@@ -16,6 +17,7 @@ import java.util.Random;
 public class EditActivity extends AppCompatActivity {
 
     String storyCreateTime;
+    long id;
 
     ActivityEditBinding binding;
     InitDataBase initDataBase;
@@ -33,6 +35,10 @@ public class EditActivity extends AppCompatActivity {
         initMethod();
         binding.editSaveButton.setOnClickListener(v -> saveMethod());
         binding.editCloseButton.setOnClickListener(v -> finish());
+        binding.editOtherOption.setOnClickListener(v -> {
+            OtherEditOptionFragment bottomSheet = new OtherEditOptionFragment();
+            bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+        });
     }
 
     private void initMethod() {
@@ -40,6 +46,7 @@ public class EditActivity extends AppCompatActivity {
         binding.editCreateTime.setText(storyCreateTime);
         initDataBase = UtilMethod.getInstance(getApplicationContext());
         storyDao = initDataBase.storyDao();
+        id = new Random().nextInt(1000);
     }
 
     private void saveMethod() {
@@ -51,7 +58,6 @@ public class EditActivity extends AppCompatActivity {
             } else {
                 storyDao.insertStory(getCurrentStory());
                 UtilMethod.showToast(getApplicationContext(), "Save note success!");
-                finish();
             }
         } else {
             if (binding.editContent.getText().toString().trim().isEmpty()) {
@@ -71,9 +77,7 @@ public class EditActivity extends AppCompatActivity {
     private EntityStory getCurrentStory() {
         String content = binding.editContent.getText().toString().trim();
         String title = binding.editTitle.getText().toString().trim();
-        long id = new Random().nextInt(1000);
         return new EntityStory(id, 6, "name", "slogan", storyCreateTime, 6, title, content);
-
     }
 
 }

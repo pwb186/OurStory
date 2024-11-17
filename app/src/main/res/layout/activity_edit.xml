@@ -6,12 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".page.EditActivity">
 
+    <!--    android:id="@+id/edit_close_button"-->
+    <!--    android:id="@+id/edit_save_button"-->
+    <!--    android:id="@+id/edit_create_time"-->
+    <!--    android:id="@+id/edit_words_count"-->
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:menu="@menu/edit_topbar_menu"
+            app:navigationIcon="@drawable/ic_action_close"
+            app:title="@string/mainTitle" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Note: A RecyclerView can also be used -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Scrollable content -->
+
+    </androidx.core.widget.NestedScrollView>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingStart="@dimen/font_small_size"
-        android:paddingEnd="@dimen/font_small_size">
+        android:paddingEnd="@dimen/font_small_size"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey"
-                    android:hint="@string/mainTitle"
+                    android:hint="标题"
                     android:inputType="text" />
 
                 <EditText
@@ -101,25 +134,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey"
-                    android:hint="@string/mainTitle"
+                    android:hint="文本"
                     android:inputType="text" />
 
                 <ImageView
-                    android:id="@+id/note_image"
+                    android:id="@+id/story_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/check_image"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/Description"
-        app:srcCompat="@drawable/ic_action_add"
-        app:tint="@color/black" />
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_add_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:background="@color/white"
+            android:text="@string/OptionAddText" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_add_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:background="@color/white"
+            android:text="@string/OptionAddPicture" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_add_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:background="@color/white"
+            android:text="@string/OptionAddVoice" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_other_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:background="@color/white"
+            android:text="@string/Other" />
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

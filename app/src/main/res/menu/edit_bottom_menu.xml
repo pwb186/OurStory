@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/edit_image"
+        android:id="@+id/edit_bottom_image"
         android:icon="@drawable/icon_add_picture"
-        android:title="@string/OptionAddPicture" />
+        android:title="@string/OptionAddPicture"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/edit_text"
+        android:id="@+id/edit_bottom_text"
         android:icon="@drawable/icon_add_text"
-        android:title="@string/OptionAddText" />
+        android:title="@string/OptionAddText"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/edit_voice"
+        android:id="@+id/edit_bottom_voice"
         android:icon="@drawable/icon_add_voice"
-        android:title="@string/OptionAddVoice" />
+        android:title="@string/OptionAddVoice"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/edit_video"
+        android:id="@+id/edit_bottom_location"
+        android:icon="@drawable/icon_location"
+        android:title="@string/OptionLocation"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/edit_bottom_video"
         android:icon="@drawable/icon_add_video"
-        android:title="@string/OptionAddRadio" />
+        android:title="@string/OptionAddRadio"
+        app:showAsAction="ifRoom" />
+
 </menu>

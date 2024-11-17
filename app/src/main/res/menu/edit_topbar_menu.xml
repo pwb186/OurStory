@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/edit_save"
         android:icon="@drawable/icon_save"
-        android:title="@string/OptionSave" />
-    <item
-        android:id="@+id/edit_exit"
-        android:icon="@drawable/icon_exit"
-        android:title="@string/OptionExit" />
+        android:title="@string/OptionSave"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/edit_save_and_exit"
         android:icon="@drawable/icon_save_and_exit"
-        android:title="@string/OptionSaveExit" />
-    <item
-        android:id="@+id/edit_other"
-        android:icon="@drawable/icon_other"
-        android:title="@string/Other" />
+        android:title="@string/OptionSaveExit"
+        app:showAsAction="ifRoom"/>
+
 </menu>
