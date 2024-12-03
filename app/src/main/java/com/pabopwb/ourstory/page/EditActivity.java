@@ -1,9 +1,14 @@
 package com.pabopwb.ourstory.page;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.pabopwb.ourstory.R;
 import com.pabopwb.ourstory.page.bottomSheets.OtherEditOptionFragment;
 import com.pabopwb.ourstory.room.InitDataBase;
 import com.pabopwb.ourstory.room.StoryDao;
@@ -17,67 +22,127 @@ import java.util.Random;
 public class EditActivity extends AppCompatActivity {
 
     String storyCreateTime;
-    long id;
+    long storyId = 0;
 
     ActivityEditBinding binding;
     InitDataBase initDataBase;
     StoryDao storyDao;
     Procedure procedure;
     EntityStory story;
-    boolean isAdd = true;
 
+    boolean needAdd = true;   //true代表还没添加到数据库
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        initMethod();
-        binding.editSaveButton.setOnClickListener(v -> saveMethod());
-        binding.editCloseButton.setOnClickListener(v -> finish());
+
+        initDataBase = UtilMethod.getInstance(getApplicationContext());
+        storyDao = initDataBase.storyDao();
+
+        Intent intent = getIntent();
+        if ( ! (intent != null && intent.getBooleanExtra("needAdd", true) ) ) {
+            //如果intent为null或者"isAdd"的值为false，则条件判断为真，代表已经添加到了数据库中
+            needAdd = false;
+            if (intent == null) throw new AssertionError();
+            initMethodAgain(intent);
+        }
+        else {
+            initMethodFirst();
+        }
+
         binding.editOtherOption.setOnClickListener(v -> {
             OtherEditOptionFragment bottomSheet = new OtherEditOptionFragment();
             bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
         });
+
+        binding.editTopAppBar.setOnMenuItemClickListener(menuItem -> {
+            int itemId = menuItem.getItemId();
+
+            if (itemId == R.id.edit_save) {
+                saveMethod();
+                return true;
+            }
+            else if (itemId == R.id.edit_save_and_exit) {
+                saveMethod();
+                finish();
+                return true;
+            }
+            else if (itemId == R.id.delete) {
+                new MaterialAlertDialogBuilder(this)
+                        .setTitle("Are you sure you want delete this story?")
+                        .setPositiveButton("yes", (dialogInterface, i) -> {
+                            deleteStory();
+                        })
+                        .setNegativeButton("no", null)
+                        .show();
+                return true;
+            }
+            else {
+                return false; // 如果 `itemId` 不匹配以上任意情况，则返回 `false`
+            }
+        });
     }
 
-    private void initMethod() {
+    private void deleteStory() {
+        if (storyId != 0 ) {
+            storyDao.deleteStory(story);
+        }
+        // Set result to notify MainFragment to reload data
+        setResult(Activity.RESULT_OK);
+        finish();  // Close the EditActivity
+
+        Intent intent = new Intent("com.example.YOUR_ACTION");
+        intent.putExtra("delete_result", true); // 假设删除成功
+        sendBroadcast(intent);
+    }
+
+    private void initMethodFirst() {
+        //设置时间
         storyCreateTime = Procedure.getTime();
         binding.editCreateTime.setText(storyCreateTime);
-        initDataBase = UtilMethod.getInstance(getApplicationContext());
-        storyDao = initDataBase.storyDao();
-        id = new Random().nextInt(1000);
     }
 
+    private void initMethodAgain(Intent intent) {
+        storyId = intent.getLongExtra("storyId", 0);
+        story = storyDao.getStoryById(storyId);
+        binding.editTitle.setText(!story.getTitle().isEmpty() ? story.getTitle() : "");
+        binding.editContent.setText(story.getText());
+        binding.editCreateTime.setText(story.getStoryCreateTime());
+//            if ((story.getNoteImageUrl() != null) && !note.getNoteImageUrl().isEmpty()) {
+//                imageUri = note.getNoteImageUrl();
+//                Glide.with(getApplicationContext()).load(note.getNoteImageUrl()).into(binding.noteImage);
+//            }
+}
+
     private void saveMethod() {
-        if (isAdd) {
-            if (binding.editContent.getText().toString().trim().isEmpty()) {
-                UtilMethod.showToast(getApplicationContext(), "Content is empty");
-            } else if(binding.editTitle.getText().toString().trim().isEmpty()) {
-                UtilMethod.showToast(getApplicationContext(), "Title is empty");
-            } else {
+        if (binding.editContent.getText().toString().trim().isEmpty()) {
+            UtilMethod.showToast(getApplicationContext(), "Content is empty");
+        }
+        else {
+            if(needAdd) {
+                if(storyId == 0) {
+                    storyId = new Random().nextInt(1000) + 1; // 生成1到1000之间的随机数
+                }
                 storyDao.insertStory(getCurrentStory());
                 UtilMethod.showToast(getApplicationContext(), "Save note success!");
             }
-        } else {
-            if (binding.editContent.getText().toString().trim().isEmpty()) {
-                UtilMethod.showToast(getApplicationContext(), "Content is empty~");
-            } else {
-                String content = binding.editContent.getText().toString().trim();
-                story.setText(content);
-                story.setTitle(!binding.editTitle.getText().toString().trim().isEmpty() ? binding.editTitle.getText().toString().trim() : "");
+            else {
                 //note.setNoteImageUrl(imageUri == null ? null : imageUri);
+                story.setText(binding.editContent.getText().toString().trim());
+                story.setTitle(!binding.editTitle.getText().toString().trim().isEmpty() ? binding.editTitle.getText().toString().trim() : "");
                 storyDao.updateStory(story);
-                UtilMethod.showToast(getApplicationContext(), "Save note success!");
-                finish();
             }
+            UtilMethod.showToast(getApplicationContext(), "Save note success!");
+            // Set result to notify MainFragment to reload data
+            setResult(Activity.RESULT_OK);
         }
     }
 
     private EntityStory getCurrentStory() {
         String content = binding.editContent.getText().toString().trim();
-        String title = binding.editTitle.getText().toString().trim();
-        return new EntityStory(id, 6, "name", "slogan", storyCreateTime, 6, title, content);
+        String title = !binding.editTitle.getText().toString().trim().isEmpty() ? binding.editTitle.getText().toString().trim() : "";
+        return new EntityStory(storyId, 6, "name", "slogan", storyCreateTime, 6, title, content);
     }
-
 }

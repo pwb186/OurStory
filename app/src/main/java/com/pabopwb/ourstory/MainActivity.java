@@ -37,13 +37,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());     //将布局 XML 文件实例化为其相应的View对象。它从不直接使用。相反，使用Activity.getLayoutInflater()或Context#getSystemService来检索已连接到当前上下文并为您正在运行的设备正确配置的标准 LayoutInflater 实例。
         setContentView(binding.getRoot());
         initMethod();
-/*
-        InitDataBase initDataBase = UtilMethod.getInstance(getApplicationContext());
-        StoryDao storyDao = initDataBase.storyDao();
-        System.out.println("dafe\n");
-        long l = storyDao.insertStory(new EntityStory(3, 2, "1", "1", "1", 1, "1", "1"));
-        System.out.println("inSid" + l);
-        System.out.println(storyDao.getAllStory());*/
     }
 
     private void initMethod() {

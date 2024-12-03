@@ -7,6 +7,8 @@ appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
+richtextx = "1.0.0"
+richtextxVersion = "1.0.5-beta"
 roomRuntime = "2.6.1"
 roomCompiler = "2.6.1"
 navigationFragment = "2.8.3"
@@ -22,6 +24,8 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+richtextx = { module = "com.shine56.richtextx:richtextx", version.ref = "richtextx" }
+richtextx-v105beta = { module = "com.shine56.richtextx:richtextx", version.ref = "richtextxVersion" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }

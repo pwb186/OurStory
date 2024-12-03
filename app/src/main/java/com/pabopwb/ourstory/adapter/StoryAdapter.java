@@ -1,6 +1,7 @@
 package com.pabopwb.ourstory.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.pabopwb.ourstory.R;
+import com.pabopwb.ourstory.page.EditActivity;
 import com.pabopwb.ourstory.room.InitDataBase;
 import com.pabopwb.ourstory.room.StoryDao;
 import com.pabopwb.ourstory.entity.EntityCard;
@@ -26,12 +29,12 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
     int deletePosition;
     InitDataBase initDataBase;      //数据库初始化对象，用于访问数据库
     StoryDao storyDao;
-    CountListen countListen;        //一个接口，用于在适配器内部与外部通信，更新笔记数量
+    OnStoryActionListener storyActionListener;        //一个接口，用于在适配器内部与外部通信，更新笔记数量
 
     public StoryAdapter(ArrayList<EntityCard> list, Context context) {
         this.list = list;
         this.context = context;
-        //this.countListen = countListen;
+        //this.storyActionListener = storyActionListener;
         initDataBase = UtilMethod.getInstance(context);
         storyDao = initDataBase.storyDao();
     }
@@ -56,8 +59,20 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
         //holder.cover.setText(list.get(position).getTitle());
         holder.content.setText(list.get(position).getText());
         holder.set.setOnClickListener(view -> {
-            System.out.println("has click");
+            System.out.println("click");
         });
+        holder.itemStory.setOnClickListener(view -> {
+            Intent intent = new Intent(context, EditActivity.class);
+            intent.putExtra("needAdd", false);
+            intent.putExtra("storyId", list.get(position).getCardID());
+            context.startActivity(intent);
+        });
+    }
+
+    // 更新适配器中的数据
+    public void onStoryUpdated(ArrayList<EntityCard> newCardList) {
+        this.list = newCardList;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -69,6 +84,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
      * */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        MaterialCardView itemStory;
         TextView title;
         TextView introduction;
         TextView time;
@@ -78,6 +94,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemStory = itemView.findViewById(R.id.item_story);
             title = itemView.findViewById(R.id.item_title);
             introduction = itemView.findViewById(R.id.item_introduction);
             time = itemView.findViewById(R.id.item_time);
@@ -87,7 +104,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder>{
         }
     }
 
-    public interface CountListen {
-        void countListen(int count);
+    public interface OnStoryActionListener {
+        void countListen(int count);    //用于计数
+        void onStoryUpdated(); // 用于刷新 MainFragment
     }
 }

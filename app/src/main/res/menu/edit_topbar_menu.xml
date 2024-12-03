@@ -11,5 +11,9 @@
         android:icon="@drawable/icon_save_and_exit"
         android:title="@string/OptionSaveExit"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/delete"
+        android:title="删除该项目"
+        app:showAsAction="never"/>
 
 </menu>
