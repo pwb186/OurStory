@@ -9,103 +9,72 @@
     android:layout_marginEnd="@dimen/view_margin_small_spacing"
     android:layout_marginBottom="@dimen/view_margin_small_spacing"
     android:clickable="true"
-    android:orientation="vertical"
-    app:cardElevation="2dp">
-    <!--    android:backgroundTint="?attr/customBNVBackColor"-->
+    app:cardBackgroundColor="@android:color/white"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="12dp">
+
+    <!-- 内容布局 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <LinearLayout
+        <!-- 标题和时间 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_margin_small_spacing"
-            android:layout_marginBottom="@dimen/view_margin_small_spacing"
-            android:minHeight="90dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="8dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/view_margin_small_spacing"
-                android:gravity="start"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/item_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLength="16"
-                    android:singleLine="true"
-                    android:text="@string/mainTitle"
-                    android:textSize="@dimen/font_large_size" />
-
-                <TextView
-                    android:id="@+id/item_introduction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/view_margin_small_spacing"
-                    android:ellipsize="end"
-                    android:maxLength="16"
-                    android:singleLine="true"
-                    android:text="@string/item_introduction"
-                    android:textSize="@dimen/font_normal_size" />
-            </LinearLayout>
-
-            <View
+            <!-- 标题 -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_title"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:text="@string/mainTitle"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_large_size"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/item_time"
+                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-            <TextView
+            <!-- 时间 -->
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="@dimen/view_margin_small_spacing"
                 android:text="@string/item_time"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/font_small_size" />
-        </LinearLayout>
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/font_small_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- 图片部分 -->
         <ImageView
-            android:id="@+id/item_cover"
-            android:layout_width="match_parent"
+            android:id="@+id/item_image"
+            android:layout_width="wrap_content"
             android:layout_height="200dp"
-            android:scaleType="centerCrop" />
+            android:layout_marginTop="8dp"
+            android:scaleType="fitCenter" />
 
-        <LinearLayout
+        <!-- 简短的介绍 -->
+        <TextView
+            android:id="@+id/item_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_margin_small_spacing"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/view_margin_normal_spacing"
-            android:paddingEnd="@dimen/view_margin_normal_spacing">
-
-            <TextView
-                android:id="@+id/item_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="@string/item_introduction"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/font_normal_size" />
-
-            <Button
-                android:id="@+id/item_set"
-                style="@style/Widget.Material3.Button.IconButton.Filled"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginBottom="@dimen/view_margin_small_spacing"
-                android:backgroundTint="@color/sky_blue"
-                android:text="@string/main"
-                android:textColor="@color/white"
-                app:icon="@drawable/icon_person"
-                app:iconTint="@color/black" />
-        </LinearLayout>
-
+            android:text="@string/item_introduction"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_normal_size"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:layout_marginTop="8dp" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

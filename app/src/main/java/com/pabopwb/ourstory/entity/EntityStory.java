@@ -34,7 +34,10 @@ public class EntityStory {
     @ColumnInfo(name = "story_text")
     private String text;
 
-    public EntityStory(long storyId, long userId, String userName, String userSlogan, String storyCreateTime, long timeStamp, String title, String text) {
+    @ColumnInfo(name = "story_image")
+    private String imgUrl;
+
+    public EntityStory(long storyId, long userId, String userName, String userSlogan, String storyCreateTime, long timeStamp, String title, String text, String imgUrl) {
         this.storyId = storyId;
         this.userId = userId;
         this.userName = userName;
@@ -43,6 +46,7 @@ public class EntityStory {
         this.timeStamp = timeStamp;
         this.title = title;
         this.text = text;
+        this.imgUrl = imgUrl;
     }
 
     public void setUserId(long userId) {
@@ -108,4 +112,8 @@ public class EntityStory {
     public String getText() {
         return text;
     }
+
+    public String getImgUrl() { return imgUrl; }
+
+    public void setImgUrl(String imgUrl) { this.imgUrl = imgUrl; }
 }

@@ -63,4 +63,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="OptionLocation">位置</string>
+    <string name="image">image</string>
 </resources>

@@ -5,4 +5,10 @@
     <color name="sky_blue">#9ED8F2</color>
     <color name="green">#B5D4E8BE</color>
     <color name="grey">#6B6A6A</color>
+    <color name="primaryTextColor">#212121</color> <!-- 深灰色 -->
+    <color name="secondaryTextColor">#757575</color> <!-- 浅灰色 -->
+    <color name="warm_primary">#FF6F00</color> <!-- 柔和的橙色 -->
+    <color name="warm_secondary">#FF9E2C</color> <!-- 柔和的黄色 -->
+    <color name="warm_tertiary">#FFB74D</color> <!-- 米色 -->
+
 </resources>

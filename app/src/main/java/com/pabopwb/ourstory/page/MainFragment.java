@@ -28,8 +28,9 @@ import com.pabopwb.ourstory.util.UtilMethod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
-public class MainFragment extends Fragment implements StoryAdapter.OnStoryActionListener {
+public class MainFragment extends Fragment {
 
     FragmentMainBinding binding;    //使用 View Binding 获取 Fragment 的视图组件，简化了视图查找。
     InitDataBase initDataBase;
@@ -61,7 +62,8 @@ public class MainFragment extends Fragment implements StoryAdapter.OnStoryAction
             // 处理返回的结果
             if (result.getResultCode() == Activity.RESULT_OK) {
                 // 执行刷新 Fragment 的操作
-                refreshFragment();
+                initMethod();
+                initList();
             }
         });
 
@@ -89,7 +91,13 @@ public class MainFragment extends Fragment implements StoryAdapter.OnStoryAction
     }
 
     private void initList() {
-        list = getList();
+
+//        storyDao.getAllStory().observe(getViewLifecycleOwner(), allStory -> {
+//            if (allStory != null && !allStory.isEmpty()) {
+//                list = allStory;
+//            }
+//        });
+        list = storyDao.getAllStory();
         if (list != null && !list.isEmpty()) {
             ArrayList<EntityCard> list = storyToCard(this.list);
             binding.storyNull.setVisibility(View.GONE);
@@ -114,6 +122,8 @@ public class MainFragment extends Fragment implements StoryAdapter.OnStoryAction
             entityCard.setCardID(story.getStoryId());
             entityCard.setText(story.getText());
             entityCard.setTitle(story.getTitle());
+            entityCard.setImgUrl(story.getImgUrl());
+            entityCard.setStoryCreateTime(story.getStoryCreateTime());
             cards.add(entityCard);
         }
         return cards;
@@ -122,34 +132,9 @@ public class MainFragment extends Fragment implements StoryAdapter.OnStoryAction
     private void initMethod() {
         initDataBase = UtilMethod.getInstance(getContext());
         storyDao = initDataBase.storyDao();
+//        Executors.newSingleThreadExecutor().execute(() -> {
+//            storyDao = initDataBase.storyDao();
+//        });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void refreshFragment() {
-//        initMethod();
-//        initList();
-   //     System.out.println("shoodao delete");
-        // 刷新逻辑，如重新加载数据或更新 RecyclerView
-       //  storyAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void countListen(int count) {
-
-    }
-
-    // 实现 OnStoryActionListener 接口方法
-    @Override
-    public void onStoryUpdated() {
-
-    }
-
-    private List<EntityStory> getList() {
-        List<EntityStory> allStory = storyDao.getAllStory();
-        if (!allStory.isEmpty()) {
-            return allStory;
-        } else {
-            return null;
-        }
-    }
 }

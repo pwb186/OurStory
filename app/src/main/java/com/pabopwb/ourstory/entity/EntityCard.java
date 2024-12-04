@@ -7,13 +7,18 @@ public class EntityCard {
     private String storyCreateTime;
     private String title;
     private String text;
+    private String imgUrl;
 
     public EntityCard() {
-        this.cardID = cardID;
-        this.introduction = introduction;
-        this.storyCreateTime = storyCreateTime;
-        this.title = title;
+
+    }
+    public EntityCard(String imgUrl, String text, String title, String storyCreateTime, String introduction, long cardID) {
+        this.imgUrl = imgUrl;
         this.text = text;
+        this.title = title;
+        this.storyCreateTime = storyCreateTime;
+        this.introduction = introduction;
+        this.cardID = cardID;
     }
 
     public long getCardID() {
@@ -54,5 +59,13 @@ public class EntityCard {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

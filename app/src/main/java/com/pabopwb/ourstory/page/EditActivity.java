@@ -1,12 +1,16 @@
 package com.pabopwb.ourstory.page;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.pabopwb.ourstory.R;
 import com.pabopwb.ourstory.page.bottomSheets.OtherEditOptionFragment;
@@ -23,12 +27,13 @@ public class EditActivity extends AppCompatActivity {
 
     String storyCreateTime;
     long storyId = 0;
+    String imgUri;
 
     ActivityEditBinding binding;
     InitDataBase initDataBase;
     StoryDao storyDao;
-    Procedure procedure;
     EntityStory story;
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
 
     boolean needAdd = true;   //true代表还没添加到数据库
 
@@ -66,7 +71,6 @@ public class EditActivity extends AppCompatActivity {
             }
             else if (itemId == R.id.edit_save_and_exit) {
                 saveMethod();
-                finish();
                 return true;
             }
             else if (itemId == R.id.delete) {
@@ -82,6 +86,23 @@ public class EditActivity extends AppCompatActivity {
             else {
                 return false; // 如果 `itemId` 不匹配以上任意情况，则返回 `false`
             }
+        });
+
+        pickMedia =
+                registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                    if (uri != null) {
+                        Log.d("PhotoPicker", "Selected URI: " + uri);
+                        imgUri = UtilMethod.getPath(getApplicationContext(), uri);
+                        Glide.with(getApplicationContext()).load(uri).into(binding.storyImage);
+                    } else {
+                        Log.d("PhotoPicker", "No media selected");
+                    }
+                });
+
+        binding.editAddPicture.setOnClickListener(view -> {
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
         });
     }
 
@@ -102,6 +123,7 @@ public class EditActivity extends AppCompatActivity {
         //设置时间
         storyCreateTime = Procedure.getTime();
         binding.editCreateTime.setText(storyCreateTime);
+
     }
 
     private void initMethodAgain(Intent intent) {
@@ -110,10 +132,10 @@ public class EditActivity extends AppCompatActivity {
         binding.editTitle.setText(!story.getTitle().isEmpty() ? story.getTitle() : "");
         binding.editContent.setText(story.getText());
         binding.editCreateTime.setText(story.getStoryCreateTime());
-//            if ((story.getNoteImageUrl() != null) && !note.getNoteImageUrl().isEmpty()) {
-//                imageUri = note.getNoteImageUrl();
-//                Glide.with(getApplicationContext()).load(note.getNoteImageUrl()).into(binding.noteImage);
-//            }
+        if (story.getImgUrl() != null && !story.getImgUrl().isEmpty()) {
+            imgUri = story.getImgUrl();
+            Glide.with(getApplicationContext()).load(imgUri).into(binding.storyImage);
+        }
 }
 
     private void saveMethod() {
@@ -126,7 +148,6 @@ public class EditActivity extends AppCompatActivity {
                     storyId = new Random().nextInt(1000) + 1; // 生成1到1000之间的随机数
                 }
                 storyDao.insertStory(getCurrentStory());
-                UtilMethod.showToast(getApplicationContext(), "Save note success!");
             }
             else {
                 //note.setNoteImageUrl(imageUri == null ? null : imageUri);
@@ -137,12 +158,14 @@ public class EditActivity extends AppCompatActivity {
             UtilMethod.showToast(getApplicationContext(), "Save note success!");
             // Set result to notify MainFragment to reload data
             setResult(Activity.RESULT_OK);
+
+            finish();
         }
     }
 
     private EntityStory getCurrentStory() {
         String content = binding.editContent.getText().toString().trim();
         String title = !binding.editTitle.getText().toString().trim().isEmpty() ? binding.editTitle.getText().toString().trim() : "";
-        return new EntityStory(storyId, 6, "name", "slogan", storyCreateTime, 6, title, content);
+        return new EntityStory(storyId, 6, "name", "slogan", storyCreateTime, 6, title, content, imgUri);
     }
 }

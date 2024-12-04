@@ -27,7 +27,10 @@ public class UtilMethod {
      **/
     public static InitDataBase getInstance(Context context) {
         if (baseRoomDatabase == null) {
-            baseRoomDatabase = Room.databaseBuilder(context, InitDataBase.class, "ourstory_dataBase.db").allowMainThreadQueries().build();
+            // baseRoomDatabase = Room.databaseBuilder(context, InitDataBase.class, "ourstory_dataBase.db").allowMainThreadQueries().build();
+            baseRoomDatabase = Room.databaseBuilder(context, InitDataBase.class, "your_database_name")
+                    .addMigrations(InitDataBase.MIGRATION_1_2) // 应用迁移策略
+                    .allowMainThreadQueries().build();
         }
         return baseRoomDatabase;
     }
