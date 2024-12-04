@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.room.Room;
 
 import com.pabopwb.ourstory.room.InitDataBase;
+import com.pabopwb.ourstory.room.MyMigration;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -29,7 +30,7 @@ public class UtilMethod {
         if (baseRoomDatabase == null) {
             // baseRoomDatabase = Room.databaseBuilder(context, InitDataBase.class, "ourstory_dataBase.db").allowMainThreadQueries().build();
             baseRoomDatabase = Room.databaseBuilder(context, InitDataBase.class, "your_database_name")
-                    .addMigrations(InitDataBase.MIGRATION_1_2) // 应用迁移策略
+                    .addMigrations(MyMigration.MIGRATION_1_2) // 应用迁移策略
                     .allowMainThreadQueries().build();
         }
         return baseRoomDatabase;

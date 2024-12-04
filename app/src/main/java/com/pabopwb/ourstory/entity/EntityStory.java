@@ -37,8 +37,7 @@ public class EntityStory {
     @ColumnInfo(name = "story_image")
     private String imgUrl;
 
-    public EntityStory(long storyId, long userId, String userName, String userSlogan, String storyCreateTime, long timeStamp, String title, String text, String imgUrl) {
-        this.storyId = storyId;
+    public EntityStory(long userId, String userName, String userSlogan, String storyCreateTime, long timeStamp, String title, String text, String imgUrl) {
         this.userId = userId;
         this.userName = userName;
         this.userSlogan = userSlogan;

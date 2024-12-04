@@ -71,6 +71,7 @@ public class EditActivity extends AppCompatActivity {
             }
             else if (itemId == R.id.edit_save_and_exit) {
                 saveMethod();
+                finish();
                 return true;
             }
             else if (itemId == R.id.delete) {
@@ -144,9 +145,6 @@ public class EditActivity extends AppCompatActivity {
         }
         else {
             if(needAdd) {
-                if(storyId == 0) {
-                    storyId = new Random().nextInt(1000) + 1; // 生成1到1000之间的随机数
-                }
                 storyDao.insertStory(getCurrentStory());
             }
             else {
@@ -158,14 +156,12 @@ public class EditActivity extends AppCompatActivity {
             UtilMethod.showToast(getApplicationContext(), "Save note success!");
             // Set result to notify MainFragment to reload data
             setResult(Activity.RESULT_OK);
-
-            finish();
         }
     }
 
     private EntityStory getCurrentStory() {
         String content = binding.editContent.getText().toString().trim();
         String title = !binding.editTitle.getText().toString().trim().isEmpty() ? binding.editTitle.getText().toString().trim() : "";
-        return new EntityStory(storyId, 6, "name", "slogan", storyCreateTime, 6, title, content, imgUri);
+        return new EntityStory(6, "name", "slogan", storyCreateTime, 6, title, content, imgUri);
     }
 }

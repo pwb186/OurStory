@@ -30,12 +30,4 @@ import com.pabopwb.ourstory.entity.EntityStory;
 @Database(entities = {EntityStory.class}, version = 2, exportSchema = false)
 public abstract class InitDataBase extends RoomDatabase {
     public abstract StoryDao storyDao();
-
-    public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-            // 添加新的列 'story_image'
-            database.execSQL("ALTER TABLE EntityStory ADD COLUMN story_image TEXT");
-        }
-    };
 }
